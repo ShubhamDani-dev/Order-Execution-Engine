@@ -24,9 +24,9 @@ export interface Order {
   tokenIn: string;
   tokenOut: string;
   amountIn: number;
-  amountOut?: number | undefined; // For limit orders
-  targetPrice?: number | undefined; // For limit orders
-  launchTime?: Date | undefined; // For sniper orders
+  amountOut?: number | undefined;
+  targetPrice?: number | undefined;
+  launchTime?: Date | undefined;
   slippage: number;
   status: OrderStatus;
   createdAt: Date;

@@ -2,18 +2,16 @@
 
 A robust order execution engine with DEX routing and WebSocket status updates for trading on Solana DEXs.
 
-## 🎯 Design Decisions
+## Order Type Choice: Market Orders
 
-## 🎯 Order Type Choice: Market Orders
+Market orders were chosen as the primary implementation because they provide the most comprehensive demonstration of the entire execution pipeline with immediate execution, real-time DEX routing decisions, and clear status progression through all system components.
 
-**Why Market Orders?** Market orders were chosen as the primary implementation because they provide the most comprehensive demonstration of the entire execution pipeline with immediate execution, real-time DEX routing decisions, and clear status progression through all system components.
-
-**Extension Strategy:** The architecture easily extends to other order types:
+The architecture easily extends to other order types:
 
 - **Limit Orders**: Already implemented - waits for target price to be reached before executing as market order
 - **Sniper Orders**: Already implemented - waits for launch time before executing as market order
 
-## 🏗️ Architecture
+## Architecture
 
 ### Core Components
 
@@ -39,7 +37,7 @@ A robust order execution engine with DEX routing and WebSocket status updates fo
 - `confirmed` → Transaction successful (includes txHash)
 - `failed` → Error occurred (includes error message)
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -48,7 +46,7 @@ A robust order execution engine with DEX routing and WebSocket status updates fo
 - Redis 6+
 - macOS with Homebrew (or manually install PostgreSQL/Redis)
 
-### Local Setup (Recommended)
+### Local Setup
 
 1. **Clone and install dependencies**
 
@@ -108,7 +106,7 @@ You can run the core tests without database dependencies:
 npm test -- tests/dexRouter.test.ts tests/orderService.test.ts
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Submit Order
 
@@ -143,7 +141,7 @@ ws.onmessage = (event) => {
 - `GET /api/queue/stats` - Queue statistics
 - `GET /health` - System health check
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -167,7 +165,7 @@ All 28 tests passing (100% success rate):
 - ✅ WebSocket connection lifecycle
 - ✅ Error handling and retry mechanisms
 
-## 🔧 Configuration
+## Configuration
 
 Key environment variables:
 
@@ -176,7 +174,7 @@ Key environment variables:
 - `SLIPPAGE_TOLERANCE=0.01` - Default slippage protection
 - `MAX_RETRY_ATTEMPTS=3` - Failed order retry limit
 
-## 📊 Performance Features
+## Performance Features
 
 - **Concurrent Processing**: Up to 10 orders simultaneously
 - **Rate Limiting**: 100 orders per minute
@@ -184,7 +182,7 @@ Key environment variables:
 - **Connection Pooling**: Efficient database connections
 - **WebSocket Broadcasting**: Real-time updates to all connected clients
 
-## 🔗 DEX Router Logic
+## DEX Router Logic
 
 The mock implementation simulates realistic DEX behavior:
 
@@ -194,7 +192,7 @@ The mock implementation simulates realistic DEX behavior:
 - **Slippage Protection**: Respects user-defined tolerance
 - **Execution Time**: 2-3 second realistic delays
 
-## 📝 Order Types Explanation
+## Order Types Explanation
 
 ### Market Orders (Implemented)
 
@@ -214,14 +212,14 @@ The mock implementation simulates realistic DEX behavior:
 - High priority processing for time-sensitive opportunities
 - Critical for trading new token listings
 
-## 🚨 Error Handling
+## Error Handling
 
 - **Network Issues**: Exponential backoff retry (3 attempts max)
 - **Database Errors**: Transaction rollback and graceful degradation
 - **Queue Failures**: Dead letter queue for manual review
 - **WebSocket Errors**: Automatic reconnection with status preservation
 
-## 📈 Monitoring
+## Monitoring
 
 Access real-time metrics:
 
@@ -230,7 +228,7 @@ Access real-time metrics:
 - DEX routing decisions
 - WebSocket connection counts
 
-## 🔜 Future Enhancements
+## Future Enhancements
 
 - Real Solana devnet integration
 - Advanced order types (Stop-loss, Take-profit)

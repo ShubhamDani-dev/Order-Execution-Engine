@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { OrderType } from '../types';
 
-export const orderSubmissionSchema = Joi.object({
+export const orderSchema = Joi.object({
   type: Joi.string().valid(...Object.values(OrderType)).required(),
   tokenIn: Joi.string().required().min(1).max(100),
   tokenOut: Joi.string().required().min(1).max(100),
@@ -25,14 +25,14 @@ export const orderSubmissionSchema = Joi.object({
   userId: Joi.string().optional()
 });
 
-export const orderIdSchema = Joi.object({
+export const idSchema = Joi.object({
   orderId: Joi.string().uuid().required()
 });
 
 export function validateOrderSubmission(data: any) {
-  return orderSubmissionSchema.validate(data);
+  return orderSchema.validate(data);
 }
 
 export function validateOrderId(data: any) {
-  return orderIdSchema.validate(data);
+  return idSchema.validate(data);
 }

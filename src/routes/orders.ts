@@ -25,16 +25,13 @@ export async function orderRoutes(
       }
 
       const orderData: OrderSubmission = value;
-      
-      // Submit order
       const orderId = await orderService.submitOrder(orderData);
 
-      // Add order to processing queue with appropriate priority
       let priority = 0;
       if (orderData.type === OrderType.SNIPER) {
-        priority = 10; // High priority for sniper orders
+        priority = 10;
       } else if (orderData.type === OrderType.LIMIT) {
-        priority = 5; // Medium priority for limit orders
+        priority = 5;
       }
 
       await orderQueue.addOrder(orderId, priority);
@@ -45,7 +42,7 @@ export async function orderRoutes(
       });
 
     } catch (error) {
-      console.error('Error in order submission:', error);
+      console.error('Order submission error:', error);
       return reply.status(500).send({
         error: 'Failed to process order',
         message: (error as Error).message
@@ -67,16 +64,13 @@ export async function orderRoutes(
       }
 
       const orderData: OrderSubmission = value;
-      
-      // Submit order
       const orderId = await orderService.submitOrder(orderData);
 
-      // Add order to processing queue with appropriate priority
       let priority = 0;
       if (orderData.type === OrderType.SNIPER) {
-        priority = 10; // High priority for sniper orders
+        priority = 10;
       } else if (orderData.type === OrderType.LIMIT) {
-        priority = 5; // Medium priority for limit orders
+        priority = 5;
       }
 
       await orderQueue.addOrder(orderId, priority);
@@ -89,7 +83,7 @@ export async function orderRoutes(
       });
 
     } catch (error) {
-      console.error('Error in order execution:', error);
+      console.error('Order execution error:', error);
       return reply.status(500).send({
         error: 'Failed to process order',
         message: (error as Error).message
@@ -117,7 +111,7 @@ export async function orderRoutes(
 
       return reply.send(order);
     } catch (error) {
-      console.error('Error getting order:', error);
+      console.error('Get order error:', error);
       return reply.status(500).send({
         error: 'Internal server error',
         message: (error as Error).message
@@ -134,7 +128,7 @@ export async function orderRoutes(
       const orders = await orderService.getRecentOrders(limit);
       return reply.send(orders);
     } catch (error) {
-      console.error('Error getting orders:', error);
+      console.error('Get orders error:', error);
       return reply.status(500).send({
         error: 'Internal server error',
         message: (error as Error).message
@@ -155,7 +149,7 @@ export async function orderRoutes(
         }
       });
     } catch (error) {
-      console.error('Error getting queue stats:', error);
+      console.error('Queue stats error:', error);
       return reply.status(500).send({
         error: 'Internal server error',
         message: (error as Error).message
@@ -169,7 +163,7 @@ export async function orderRoutes(
       await orderQueue.pauseQueue();
       return reply.send({ message: 'Queue paused' });
     } catch (error) {
-      console.error('Error pausing queue:', error);
+      console.error('Pause queue error:', error);
       return reply.status(500).send({
         error: 'Internal server error',
         message: (error as Error).message
@@ -183,7 +177,7 @@ export async function orderRoutes(
       await orderQueue.resumeQueue();
       return reply.send({ message: 'Queue resumed' });
     } catch (error) {
-      console.error('Error resuming queue:', error);
+      console.error('Resume queue error:', error);
       return reply.status(500).send({
         error: 'Internal server error',
         message: (error as Error).message

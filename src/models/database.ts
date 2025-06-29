@@ -18,7 +18,6 @@ export class Database {
   async init(): Promise<void> {
     const client = await this.pool.connect();
     try {
-      // Create orders table
       await client.query(`
         CREATE TABLE IF NOT EXISTS orders (
           id UUID PRIMARY KEY,
@@ -41,17 +40,15 @@ export class Database {
         );
       `);
 
-      // Create index on status for efficient queries
       await client.query(`
         CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
       `);
 
-      // Create index on created_at for ordering
       await client.query(`
         CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at);
       `);
 
-      console.log('Database initialized successfully');
+      console.log('Database initialized');
     } finally {
       client.release();
     }

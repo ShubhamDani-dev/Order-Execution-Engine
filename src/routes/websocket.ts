@@ -30,9 +30,9 @@ export async function websocketRoutes(
       connection.on('message', (message: any) => {
         try {
           const data = JSON.parse(message.toString());
-          console.log(`WebSocket message from client for order ${orderId}:`, data);
+          console.log(`WS message from client for order ${orderId}:`, data);
         } catch (error) {
-          console.error('Invalid WebSocket message:', error);
+          console.error('Invalid WS message:', error);
         }
       });
     });

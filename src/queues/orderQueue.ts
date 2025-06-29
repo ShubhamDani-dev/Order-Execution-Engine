@@ -12,19 +12,17 @@ export class OrderQueue {
   constructor(orderService: OrderService) {
     this.orderService = orderService;
     
-    // Create Redis connection
     this.redis = new IORedis({
       host: config.redis.host,
       port: config.redis.port,
-      maxRetriesPerRequest: null, // Required for BullMQ
+      maxRetriesPerRequest: null,
     });
 
-    // Create queue
     this.queue = new Queue('order-processing', {
       connection: this.redis,
       defaultJobOptions: {
-        removeOnComplete: 100, // Keep last 100 completed jobs
-        removeOnFail: 50, // Keep last 50 failed jobs
+        removeOnComplete: 100,
+        removeOnFail: 50,
         attempts: 3,
         backoff: {
           type: 'exponential',
@@ -33,7 +31,6 @@ export class OrderQueue {
       },
     });
 
-    // Create worker
     this.worker = new Worker(
       'order-processing',
       async (job: Job) => {
@@ -46,25 +43,25 @@ export class OrderQueue {
         concurrency: config.queue.maxConcurrentOrders,
         limiter: {
           max: config.queue.ordersPerMinute,
-          duration: 60 * 1000, // 1 minute
+          duration: 60 * 1000,
         },
       }
     );
 
-    this.setupEventListeners();
+    this.setupEvents();
   }
 
-  private setupEventListeners(): void {
+  private setupEvents(): void {
     this.worker.on('completed', (job) => {
-      console.log(`Order processing completed for job ${job.id}`);
+      console.log(`Job ${job.id} completed`);
     });
 
     this.worker.on('failed', (job, err) => {
-      console.error(`Order processing failed for job ${job?.id}:`, err.message);
+      console.error(`Job ${job?.id} failed:`, err.message);
     });
 
     this.worker.on('stalled', (jobId) => {
-      console.warn(`Order processing stalled for job ${jobId}`);
+      console.warn(`Job ${jobId} stalled`);
     });
 
     this.queue.on('error', (err) => {
@@ -72,7 +69,7 @@ export class OrderQueue {
     });
 
     this.redis.on('error', (err) => {
-      console.error('Redis connection error:', err);
+      console.error('Redis error:', err);
     });
 
     this.redis.on('connect', () => {
@@ -86,13 +83,13 @@ export class OrderQueue {
         'process-order',
         { orderId },
         {
-          priority, // Higher priority for sniper orders
+          priority,
           delay: 0,
         }
       );
-      console.log(`Order ${orderId} added to queue with priority ${priority}`);
+      console.log(`Order ${orderId} queued with priority ${priority}`);
     } catch (error) {
-      console.error(`Failed to add order ${orderId} to queue:`, error);
+      console.error(`Failed to queue order ${orderId}:`, error);
       throw error;
     }
   }
@@ -106,7 +103,7 @@ export class OrderQueue {
           delay,
         }
       );
-      console.log(`Order ${orderId} scheduled for processing in ${delay}ms`);
+      console.log(`Order ${orderId} scheduled for ${delay}ms`);
     } catch (error) {
       console.error(`Failed to schedule order ${orderId}:`, error);
       throw error;
@@ -154,6 +151,6 @@ export class OrderQueue {
     await this.worker.close();
     await this.queue.close();
     await this.redis.quit();
-    console.log('Order queue closed');
+    console.log('Queue closed');
   }
 }

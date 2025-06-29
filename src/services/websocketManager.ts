@@ -15,12 +15,11 @@ export class WebSocketManager {
     }
     this.connections.get(orderId)!.add(socket);
 
-    // Handle connection close
     socket.on('close', () => {
       this.unregisterConnection(orderId, socket);
     });
 
-    console.log(`WebSocket connection registered for order ${orderId}`);
+    console.log(`WS connected for order ${orderId}`);
   }
 
   unregisterConnection(orderId: string, socket: any): void {
@@ -31,7 +30,7 @@ export class WebSocketManager {
         this.connections.delete(orderId);
       }
     }
-    console.log(`WebSocket connection unregistered for order ${orderId}`);
+    console.log(`WS disconnected for order ${orderId}`);
   }
 
   broadcast(orderId: string, message: WebSocketMessage): void {
@@ -40,15 +39,15 @@ export class WebSocketManager {
       const messageStr = JSON.stringify(message);
       orderConnections.forEach(socket => {
         try {
-          if (socket && socket.readyState === 1) { // WebSocket.OPEN = 1
+          if (socket && socket.readyState === 1) {
             socket.send(messageStr);
           }
         } catch (error) {
-          console.error(`Error sending WebSocket message for order ${orderId}:`, error);
+          console.error(`WS send error for order ${orderId}:`, error);
           this.unregisterConnection(orderId, socket);
         }
       });
-      console.log(`Broadcasted message to ${orderConnections.size} connection(s) for order ${orderId}: ${message.status}`);
+      console.log(`Broadcasted to ${orderConnections.size} connection(s) for order ${orderId}: ${message.status}`);
     }
   }
 

@@ -16,29 +16,23 @@ async function buildServer() {
     }
   });
 
-  // Register CORS
   await fastify.register(cors, {
     origin: true,
     credentials: true
   });
 
-  // Register WebSocket support
   await fastify.register(websocket);
 
-  // Initialize database
   const database = new Database();
   await database.init();
 
-  // Initialize services
   const wsManager = new WebSocketManager(fastify);
   const orderService = new OrderService(database, wsManager);
   const orderQueue = new OrderQueue(orderService);
 
-  // Register routes
   await orderRoutes(fastify, orderService, orderQueue, wsManager);
   await websocketRoutes(fastify, wsManager);
 
-  // Health check endpoint
   fastify.get('/health', async (request, reply) => {
     const queueStats = await orderQueue.getQueueStats();
     return {
@@ -52,9 +46,8 @@ async function buildServer() {
     };
   });
 
-  // Graceful shutdown
   const shutdown = async () => {
-    console.log('Shutting down server...');
+    console.log('Shutting down...');
     await orderQueue.close();
     await database.close();
     await fastify.close();
@@ -76,21 +69,12 @@ async function start() {
       host: '0.0.0.0'
     });
 
-    console.log(`
-🚀 Solana Order Execution Engine started!
-📡 Server running on port ${config.server.port}
-🗄️  Database: ${config.database.host}:${config.database.port}
-🔴 Redis: ${config.redis.host}:${config.redis.port}
-📊 API endpoints:
-   POST /api/orders/submit
-   GET  /api/orders/:orderId  
-   GET  /api/orders
-   GET  /api/queue/stats
-   GET  /health
-    `);
+    console.log(`Server running on port ${config.server.port}`);
+    console.log(`Database: ${config.database.host}:${config.database.port}`);
+    console.log(`Redis: ${config.redis.host}:${config.redis.port}`);
 
   } catch (error) {
-    console.error('Error starting server:', error);
+    console.error('Failed to start server:', error);
     process.exit(1);
   }
 }
