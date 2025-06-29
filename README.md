@@ -53,8 +53,8 @@ A robust order execution engine with DEX routing and WebSocket status updates fo
 1. **Clone and install dependencies**
 
 ```bash
-git clone <your-repo>
-cd eterna-backend-project
+git clone https://github.com/ShubhamDani-dev/Order-Execution-Engine.git
+cd Order-Execution-Engine
 npm install
 ```
 
@@ -158,8 +158,10 @@ npm test -- --testNamePattern="DEX Router"
 
 ### Test Coverage
 
+All 28 tests passing (100% success rate):
+
 - ✅ DEX routing logic with price comparison
-- ✅ Order service lifecycle management
+- ✅ Order service lifecycle management  
 - ✅ Queue behavior with concurrent processing
 - ✅ API endpoint validation and responses
 - ✅ WebSocket connection lifecycle

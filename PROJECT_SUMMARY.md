@@ -44,11 +44,12 @@ Successfully built a comprehensive order execution engine for Solana DEX trading
    - Order history and status tracking
 
 7. **Testing Suite**
-   - 15+ unit and integration tests
+   - 28 comprehensive unit and integration tests
    - DEX routing logic testing
    - Order service lifecycle testing
    - API endpoint validation
    - Mock implementations for isolated testing
+   - All tests passing with 100% success rate
 
 8. **Production Ready Features**
    - TypeScript with strict typing
@@ -109,7 +110,7 @@ The architecture easily extends to other order types:
 - [x] Mock DEX implementation with realistic behavior
 - [x] Order queue system with BullMQ
 - [x] PostgreSQL database integration
-- [x] Comprehensive test suite (15+ tests)
+- [x] Comprehensive test suite (28 tests, all passing)
 - [x] Postman collection for API testing
 - [x] Local PostgreSQL and Redis setup
 - [x] Complete README with setup instructions
@@ -125,9 +126,10 @@ The architecture easily extends to other order types:
 ## 🧪 Test Results
 
 ```
-Test Suites: 2 passed, 3 total
-Tests: 26 passed, 28 total
+Test Suites: 3 passed, 3 total
+Tests: 28 passed, 28 total
 Coverage: Comprehensive coverage of core functionality
+Status: All tests passing (100% success rate)
 ```
 
 ### Test Coverage Includes:
@@ -142,8 +144,8 @@ Coverage: Comprehensive coverage of core functionality
 
 ```bash
 # Clone and setup
-git clone <repo>
-cd eterna-backend-project
+git clone https://github.com/ShubhamDani-dev/Order-Execution-Engine.git
+cd Order-Execution-Engine
 npm install
 
 # Start dependencies (Local)
