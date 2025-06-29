@@ -1,4 +1,4 @@
-# Eterna Order Execution Engine
+# Solana Order Execution Engine
 
 A robust order execution engine with DEX routing and WebSocket status updates for trading on Solana DEXs.
 
@@ -76,7 +76,7 @@ source ~/.zshrc
 3. **Create database**
 
 ```bash
-createdb eterna_orders
+createdb order_execution_db
 ```
 
 4. **Configure environment**
@@ -86,7 +86,7 @@ createdb eterna_orders
 cp .env.example .env
 
 # Update .env with your settings (default local setup works)
-# DATABASE_URL=postgresql://$(whoami)@localhost:5432/eterna_orders
+# DATABASE_URL=postgresql://$(whoami)@localhost:5432/order_execution_db
 ```
 
 5. **Start the application**
@@ -161,7 +161,7 @@ npm test -- --testNamePattern="DEX Router"
 All 28 tests passing (100% success rate):
 
 - ✅ DEX routing logic with price comparison
-- ✅ Order service lifecycle management  
+- ✅ Order service lifecycle management
 - ✅ Queue behavior with concurrent processing
 - ✅ API endpoint validation and responses
 - ✅ WebSocket connection lifecycle

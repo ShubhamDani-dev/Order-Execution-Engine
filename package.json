@@ -1,5 +1,5 @@
 {
-  "name": "eterna_backend_project",
+  "name": "solana_order_execution_engine",
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {

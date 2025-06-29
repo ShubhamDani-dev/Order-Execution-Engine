@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Eterna Order Execution Engine",
+    "name": "Solana Order Execution Engine",
     "description": "API collection for testing the order execution engine",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },

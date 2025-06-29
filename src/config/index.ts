@@ -8,10 +8,10 @@ export const config = {
     nodeEnv: process.env.NODE_ENV || 'development'
   },
   database: {
-    url: process.env.DATABASE_URL || 'postgresql://username:password@localhost:5432/eterna_orders',
+    url: process.env.DATABASE_URL || 'postgresql://username:password@localhost:5432/order_execution_db',
     host: process.env.POSTGRES_HOST || 'localhost',
     port: parseInt(process.env.POSTGRES_PORT || '5432'),
-    database: process.env.POSTGRES_DB || 'eterna_orders',
+    database: process.env.POSTGRES_DB || 'order_execution_db',
     user: process.env.POSTGRES_USER || 'username',
     password: process.env.POSTGRES_PASSWORD || 'password'
   },

@@ -77,7 +77,7 @@ async function start() {
     });
 
     console.log(`
-🚀 Eterna Order Execution Engine started!
+🚀 Solana Order Execution Engine started!
 📡 Server running on port ${config.server.port}
 🗄️  Database: ${config.database.host}:${config.database.port}
 🔴 Redis: ${config.redis.host}:${config.redis.port}

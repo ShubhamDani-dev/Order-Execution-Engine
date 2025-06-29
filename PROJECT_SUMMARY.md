@@ -1,4 +1,4 @@
-# Project Summary: Eterna Order Execution Engine
+# Project Summary: Solana Order Execution Engine
 
 ## 🎯 Project Overview
 
@@ -152,7 +152,7 @@ npm install
 brew install postgresql@15 redis
 brew services start postgresql@15
 brew services start redis
-createdb eterna_orders
+createdb order_execution_db
 
 # Start application
 npm run dev
