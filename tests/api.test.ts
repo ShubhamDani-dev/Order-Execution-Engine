@@ -109,6 +109,7 @@ describe('Order API Integration Tests', () => {
         tokenIn: 'SOL',
         tokenOut: 'USDC',
         amountIn: 100,
+        amountOut: 10500, // 100 SOL * 105 target price
         targetPrice: 105,
         slippage: 0.01
       };
