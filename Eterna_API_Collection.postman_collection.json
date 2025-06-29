@@ -1,0 +1,250 @@
+{
+  "info": {
+    "name": "Eterna Order Execution Engine",
+    "description": "API collection for testing the order execution engine",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Market Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const response = pm.response.json();",
+              "    pm.collectionVariables.set('orderId', response.orderId);",
+              "    pm.test('Order ID is set', function () {",
+              "        pm.expect(response.orderId).to.be.a('string');",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"market\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": 100,\n  \"slippage\": 0.01,\n  \"userId\": \"test-user-1\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/submit",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "submit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Limit Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"limit\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": 50,\n  \"targetPrice\": 105,\n  \"slippage\": 0.01,\n  \"userId\": \"test-user-2\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/submit",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "submit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Sniper Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"sniper\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"NEW_TOKEN\",\n  \"amountIn\": 200,\n  \"launchTime\": \"{{$isoTimestamp}}\",\n  \"slippage\": 0.05,\n  \"userId\": \"test-user-3\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/submit",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "submit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Order Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "{{orderId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Recent Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/orders?limit=10",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Queue Stats",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/queue/stats",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "queue", "stats"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pause Queue",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/queue/pause",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "queue", "pause"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Resume Queue",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/queue/resume",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "queue", "resume"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Multiple Orders (Load Test)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"market\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": {{$randomInt}},\n  \"slippage\": 0.01,\n  \"userId\": \"load-test-{{$randomUUID}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/submit",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "submit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Execute Order (WebSocket Pattern)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const response = pm.response.json();",
+              "    pm.collectionVariables.set('orderId', response.orderId);",
+              "    pm.test('Order ID is set', function () {",
+              "        pm.expect(response.orderId).to.be.a('string');",
+              "    });",
+              "    pm.test('WebSocket URL provided', function () {",
+              "        pm.expect(response.websocketUrl).to.include('/ws/orders/');",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"market\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": 100,\n  \"slippage\": 0.01,\n  \"userId\": \"websocket-test-user\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/execute",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "orders", "execute"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
